@@ -1,0 +1,31 @@
+version: "3.4"
+
+services:
+  space_renter_web:
+    container_name: space_renter_web
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+    ports:
+      - 3001:3001
+    depends_on:
+      - space_renter_app
+  space_renter_app:
+    container_name: space_renter_app
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    ports:
+      - 3000:3000
+    depends_on:
+      - mongodb
+  mongodb:
+    image: mongo:5.0.6
+    container_name: space_renter_app_db
+    ports:
+      - 27017:27017
+    volumes:
+      - data:/data/db
+
+volumes:
+  data:
